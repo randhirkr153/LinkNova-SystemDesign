@@ -139,12 +139,12 @@ A Robust, Distributed Link Management System Built to Handle Billions of Request
 ---
 
 
-## 🛠️ Tech Stack (Suggested)
+## 🛠️ Tech Stack 
 
-- Backend: Node.js / Java / Python  
-- Database: MongoDB / PostgreSQL  
+- Backend: Node.js 
+- Database: MongoDB   
 - Cache: Redis  
-- Deployment: Docker + Kubernetes  
+- Deployment: Docker  
 - Cloud: GCP / AWS  
 
 ---
