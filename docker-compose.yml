@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: tinyurl_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - tinyurl-net
+
+  redis:
+    image: redis:alpine
+    container_name: tinyurl_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - tinyurl-net
+
+  server:
+    build:
+      context: ./server
+    container_name: tinyurl_server
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongodb:27017/tinyurl
+      - REDIS_URL=redis://redis:6379
+      - NODE_ENV=development
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - tinyurl-net
+
+  client:
+    build:
+      context: ./client
+    container_name: tinyurl_client
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:5000
+    depends_on:
+      - server
+    networks:
+      - tinyurl-net
+
+volumes:
+  mongodb_data:
+
+networks:
+  tinyurl-net:
+    driver: bridge
